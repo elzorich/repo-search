@@ -6,25 +6,25 @@ const searchInput = document.querySelector('.search-input');
 const repoEl = document.querySelector('.list-group');
 const getRepo: string = 'https://api.github.com/search/repositories';
 
+const clearResults = () => {
+    if (repoEl) {
+        repoEl.innerHTML = "";
+    }
+};
+
 const sequence1$ = fromEvent(searchInput, 'input');
 
 const sequence2$: Observable<ResponseModel> = sequence1$
     .pipe(
         debounceTime(500),
         distinctUntilChanged(),
-        tap(_ => clearResults()),
+        tap(clearResults),
         switchMap((event: KeyboardEvent) => request(event),
 
         )
     );
 
 sequence2$.subscribe(result => showResult(result));
-
-function clearResults() {
-    if(repoEl) {
-        repoEl.innerHTML = "";
-    }
-}
 
 function request(event: KeyboardEvent): Observable<RepositoryModel> {
     const url: string = `${getRepo}?q=${(event.target as HTMLInputElement).value}`;
@@ -36,14 +36,11 @@ function showResult(response: ResponseModel) {
         return;
     }
 
-    console.log(response.items);
     for (var i = 0; i < response.items.length; i++) {
 
         const link = document.createElement('a');
         link.href = response.items[i].html_url;
         link.innerText = response.items[i].name;
-
-        console.log(link);
 
         const language = document.createElement('div');
         language.innerText = response.items[i].language;

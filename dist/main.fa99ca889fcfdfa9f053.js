@@ -114,12 +114,10 @@ function showResult(response) {
     if (!response.items) {
         return;
     }
-    console.log(response.items);
     for (var i = 0; i < response.items.length; i++) {
         var link = document.createElement('a');
         link.href = response.items[i].html_url;
         link.innerText = response.items[i].name;
-        console.log(link);
         var language = document.createElement('div');
         language.innerText = response.items[i].language;
         if (repoEl) {
@@ -11780,4 +11778,4 @@ function zipAll(project) {
 
 /***/ })
 /******/ ]);
-//# sourceMappingURL=main.2687d43b75f8404a66ff.js.map
+//# sourceMappingURL=main.fa99ca889fcfdfa9f053.js.map

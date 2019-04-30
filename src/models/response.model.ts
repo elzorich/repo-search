@@ -7,5 +7,4 @@ export interface RepositoryModel {
     html_url: string;
     name: string;
     language: string;
-    score: number;
   }
