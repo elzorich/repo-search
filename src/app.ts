@@ -1,9 +1,9 @@
-import { from, fromEvent, Observable } from 'rxjs';
-import { debounceTime, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
+import { from, fromEvent, Observable, of } from 'rxjs';
+import { debounceTime, distinctUntilChanged, catchError, switchMap, tap } from 'rxjs/operators';
 import { ResponseModel, RepositoryModel } from './models/response.model';
 
-const searchInput:HTMLInputElement = document.querySelector('.search-input') as HTMLInputElement;
-const repoEl:HTMLUListElement = document.querySelector('.list-group') as HTMLUListElement;
+const searchInput: HTMLInputElement = document.querySelector('.search-input') as HTMLInputElement;
+const repoEl: HTMLUListElement = document.querySelector('.list-group') as HTMLUListElement;
 const getRepo: string = 'https://api.github.com/search/repositories';
 
 const clearResults = () => {
@@ -19,8 +19,8 @@ const sequence2$: Observable<ResponseModel> = sequence1$
         debounceTime(500),
         distinctUntilChanged(),
         tap(clearResults),
-        switchMap((event: KeyboardEvent) => request(event),
-
+        switchMap((event: KeyboardEvent) => request(event)
+            .pipe(catchError(error => of(`Error: ${error}`)))
         )
     );
 
