@@ -32,9 +32,14 @@ function request(event: KeyboardEvent): Observable<RepositoryModel> {
 };
 
 function showResult(response: ResponseModel) {
-    if (!response.items) {
+
+    if (!response.items || !response.items.length) {
+        const error = document.createElement('span');
+        error.innerText = 'No results found';
+        repoEl.appendChild(error);
         return;
     }
+
 
     for (var i = 0; i < response.items.length; i++) {
 
