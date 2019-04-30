@@ -2,8 +2,8 @@ import { from, fromEvent, Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
 import { ResponseModel, RepositoryModel } from './models/response.model';
 
-const searchInput = document.querySelector('.search-input');
-const repoEl = document.querySelector('.list-group');
+const searchInput:HTMLInputElement = document.querySelector('.search-input') as HTMLInputElement;
+const repoEl:HTMLUListElement = document.querySelector('.list-group') as HTMLUListElement;
 const getRepo: string = 'https://api.github.com/search/repositories';
 
 const clearResults = () => {
